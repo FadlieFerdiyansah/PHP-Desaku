@@ -1,8 +1,6 @@
 <?php
-  // import koneksi
   require_once 'koneksi.php';
   session_start();
-  // if session set redirect to home
   if (isset($_SESSION['email'])) {
     header("Location: home.php");
   }
@@ -34,7 +32,6 @@
 </html>
 
 <?php
-  // make login
   if (isset($_POST['email']) && isset($_POST['password'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
