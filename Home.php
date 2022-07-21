@@ -57,7 +57,7 @@ if (isset($_SESSION['email'])) {
     <img src="assets/Maskgroup.png" alt="" />
     <div class="absolute top-[30%] left-[43%]">
       <p class="font-[700] text-white text-[48px] text-center">
-        FORUM <br /> DESA <br> <?= $user['nama_desa'] ?>
+        FORUM <br /> DESA
       </p>
     </div>
   </div>
