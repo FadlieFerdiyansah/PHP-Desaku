@@ -23,7 +23,7 @@
     <div class="bg-white absolute top-0 w-[25%] px-[20px] min-h-screen pt-[18%]">
       <p class="text-center font-[700] text-[28px]">LOGIN</p>
 
-      <form action="" method="POST" mt-5">
+      <form action="" method="POST" class="mt-5">
         <input type="email" placeholder="email"  name="email" id="email" class="w-full rounded-lg my-2 px-2 py-2 border border-[#2C3639]" />
         <input type="password" name="password" id="password" placeholder="Password" class="w-full rounded-lg my-2 px-2 py-2 border border-[#2C3639]" />
         <a href="Register.php"><p class="text-center uppercase cursor-pointer font-[400] my-4 text-[#FF9F29] hover:font-[700] hover:underline">Buat Akun Baru</p></a>

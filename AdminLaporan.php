@@ -1,5 +1,19 @@
+<?php
+// import koneksi
+require_once 'koneksi.php';
+session_start();
+// if session set redirect to home
+if (!isset($_SESSION['username'])) {
+    header("Location: admin.php");
+}
+
+$query = "SELECT * FROM laporans";
+$result = mysqli_query($conn, $query);
+$laporans = mysqli_fetch_all($result, MYSQLI_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,64 +23,74 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <title>Admin Dashboard</title>
 </head>
-<body>
-<div class="bg-[#003865] flex items-center justify-between">
-    <h1 class="m-0 px-[20px] text-white font-bold text-[40px]">DESAKU</h1>
-    <div class="flex items-center px-[20px] space-x-[40px]">
-    <span class="material-symbols-outlined text-white text-[30px] cursor-pointer">
-    power_settings_new
-    </span>
-    </div>
-</div>
-<div class="grid grid-cols-12 gap-4 w-full">
-<div class="bg-[#003865] col-start-1 col-end-3 h-screen min-h-full">
-    <div class="border border-white">
-    <a href="AdminDashboard.php">
-        <p class="font-bold text-white text-left px-[20px] py-[10%] cursor-pointer">Data User</p>
-    </a>
-    </div>
-    <div class="border border-white">
-<a href="AdminLaporan.php">
-<p class="font-bold text-white text-left px-[20px] py-[10%] cursor-pointer">Data Laporan</p>
-</a>
-    </div>
-</div>
-<div class="col-start-4 col-end-12">
-    <div class="my-10">
-    <p class="font-bold text-center text-[30px] ">Data Laporan</p>
-    </div>
-    <div class="border rounded">
-    <table class="text-left w-full">
-  <tr class="border-b">
-    <th class="p-3">Nama Desa</th>
-    <th class="p-3">Nama Laporan</th>
-    <th class="p-3">Status Laporan</th>
-    <th class="p-3">Pesan Laporan</th>
-    <th class="p-3">File Laporan</th>
-    <th class="p-3">SK Laporan</th>
-    <th class="p-3">Action</th>
-  </tr>
-  <tr>
-    <td class="p-3">Alfreds Futterkiste</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td class="p-3 flex items-center space-x-3">
-    <a href="EditLaporanAdmin.php">
-    <div class="bg-[#003865] rounded-full px-2 py-1">
-    <span class="material-symbols-outlined cursor-pointer text-white text-center">
-        edit
-    </span>
-    </div>
-    </a>
-    </td>     
-  </tr>
 
-</table>
+<body>
+    <div class="bg-[#003865] flex items-center justify-between">
+        <h1 class="m-0 px-[20px] text-white font-bold text-[40px]">DESAKU</h1>
+        <div class="flex items-center px-[20px] space-x-[40px]">
+            <a href="./logout.php">
+                <span class="material-symbols-outlined text-white text-[30px] cursor-pointer">
+                    power_settings_new
+                </span>
+            </a>
+        </div>
     </div>
-</div>
-</div>
+    <div class="grid grid-cols-12 gap-4 w-full">
+        <div class="bg-[#003865] col-start-1 col-end-3 h-screen min-h-full">
+            <div class="border border-white">
+                <a href="AdminDashboard.php">
+                    <p class="font-bold text-white text-left px-[20px] py-[10%] cursor-pointer">Data User</p>
+                </a>
+            </div>
+            <div class="border border-white">
+                <a href="AdminLaporan.php">
+                    <p class="font-bold text-white text-left px-[20px] py-[10%] cursor-pointer">Data Laporan</p>
+                </a>
+            </div>
+        </div>
+        <div class="col-start-4 col-end-12">
+            <div class="my-10">
+                <p class="font-bold text-center text-[30px] ">Data Laporan</p>
+            </div>
+            <div class="border rounded">
+                <table class="text-left w-full">
+                    <tr class="border-b">
+                        <th class="p-3">Nama Desa</th>
+                        <th class="p-3">Nama Laporan</th>
+                        <th class="p-3">Status Laporan</th>
+                        <th class="p-3">Pesan Laporan</th>
+                        <th class="p-3">File Laporan</th>
+                        <th class="p-3">SK Laporan</th>
+                        <th class="p-3">Action</th>
+                    </tr>
+                    <?php foreach ($laporans as $laporan) : ?>
+                        <tr>
+                            <td class="p-3"><?= $laporan['nama_desa']; ?></td>
+                            <td class="p-3"><?= $laporan['nama_laporan']; ?></td>
+                            <td class="p-3"><?= $laporan['status_laporan']; ?></td>
+                            <td class="p-3"><?= $laporan['Pesan_laporan']; ?></td>
+                            <td class="p-3">
+                               <a <?php if ($laporan['file_laporan'] != '') : ?> href="assets/file_laporan/<?= $laporan['file_laporan'] ?>" <?php endif; ?> download class="text-red-500 text-sm">File : <?= $laporan['file_laporan'] != '' ? $laporan['file_laporan'] : 'File tidak ada' ?></a>
+                            </td>
+                            <td class="p-3">
+                                <a <?php if ($laporan['sk_laporan'] != '') : ?> href="assets/sk_file/<?= $laporan['sk_laporan'] ?>" <?php endif; ?> download class="text-red-500 text-sm">File : <?= $laporan['sk_laporan'] != '' ? $laporan['sk_laporan'] : 'File tidak ada' ?></a>
+                            </td>
+                            <td class="p-3 flex items-center space-x-3">
+                                <a href="EditLaporanAdmin.php?id=<?= $laporan['id'] ?>">
+                                    <div class="bg-[#003865] rounded-full px-2 py-1">
+                                        <span class="material-symbols-outlined cursor-pointer text-white text-center">
+                                            edit
+                                        </span>
+                                    </div>
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
+                </table>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
